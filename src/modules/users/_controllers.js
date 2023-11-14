@@ -14,6 +14,7 @@ const editUser = require("./edit-user");
 const showUser = require("./show-user");
 const removeUser = require("./remove-user");
 const loginUser = require("./login-user");
+const listUsers = require("./list_users");
 //
 
 /**
@@ -107,6 +108,22 @@ const getMe = async (req, res, next) => {
     next(error);
   }
 };
+/**
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ */
+const getUsers = async (req, res, next) => {
+  try {
+    const result = await listUsers();
+
+    res.status(200).json({
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 /**
  * @param {express.Request} req
@@ -166,6 +183,7 @@ module.exports = {
   patchMe,
   getMe,
   getUser,
+  getUsers,
   deleteMe,
   patchUser,
   deleteUser,

@@ -23,7 +23,7 @@ const isLoggedIn = (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    next(new UnauthorizedError(error.message));
+    // next(new UnauthorizedError(error.message));
   }
 };
 

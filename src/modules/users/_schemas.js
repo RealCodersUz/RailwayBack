@@ -2,9 +2,8 @@ const Joi = require("joi");
 
 exports.postRegisterUserSchema = {
   body: Joi.object({
-    first_name: Joi.string().required(),
-    last_name: Joi.string().required(),
-    age: Joi.number(),
+    name: Joi.string().required(),
+    branch_name: Joi.string().required(),
     role: Joi.string(),
     username: Joi.string().required(),
     password: Joi.string().required().min(4),
@@ -20,9 +19,9 @@ exports.postLoginUserSchema = {
 
 exports.patchMeSchema = {
   body: Joi.object({
-    first_name: Joi.string(),
-    last_name: Joi.string(),
-    username: Joi.string(),
+    name: Joi.string(),
+    branch_name: Joi.string(),
+    password: Joi.string(),
   }),
 };
 
@@ -37,8 +36,8 @@ exports.patchUserSchema = {
     id: Joi.string(),
   }),
   body: Joi.object({
-    first_name: Joi.string(),
-    last_name: Joi.string(),
+    name: Joi.string(),
+    branch_name: Joi.string(),
     username: Joi.string(),
   }),
 };

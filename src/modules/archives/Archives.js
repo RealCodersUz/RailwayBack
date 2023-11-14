@@ -1,23 +1,19 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const archiveSchema = new mongoose.Schema(
   {
-    branch_name: {
-      type: mongoose.SchemaTypes.String,
-      required: true,
-    },
-    role: {
-      type: mongoose.SchemaTypes.String,
-      enum: ["admin", "super_admin"],
-      default: "admin",
-      required: true,
-    },
-    username: {
+    name: {
       type: mongoose.SchemaTypes.String,
       required: true,
       unique: true,
     },
-    password: {
+    type: {
+      type: mongoose.SchemaTypes.String,
+      enum: ["rasxod", "shyot"],
+      default: "rasxod",
+      required: true,
+    },
+    month: {
       type: mongoose.SchemaTypes.String,
       required: true,
     },
@@ -36,6 +32,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.model("User", userSchema);
+const Archive = mongoose.model("Archive", archiveSchema);
 
-module.exports = User;
+module.exports = Archive;
