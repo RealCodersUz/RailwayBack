@@ -5,7 +5,7 @@ exports.postArchiveSchema = {
     name: Joi.string().required(),
     branch_name: Joi.string().required(),
     type: Joi.string().required(),
-    date: Joi.string().required(),
+    month: Joi.string().required(),
   }),
 };
 
@@ -23,6 +23,7 @@ exports.patchArchiveSchema = {
     name: Joi.string(),
     branch_name: Joi.string(),
     type: Joi.string(),
+    month: Joi.string(),
   }),
 };
 

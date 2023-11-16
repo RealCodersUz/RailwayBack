@@ -7,6 +7,10 @@ const archiveSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    branch_name: {
+      type: mongoose.SchemaTypes.String,
+      required: true,
+    },
     type: {
       type: mongoose.SchemaTypes.String,
       enum: ["rasxod", "shyot"],
