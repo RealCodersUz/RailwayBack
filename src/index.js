@@ -4,7 +4,7 @@ const db = require("./db");
 const config = require("./shared/config");
 // const handleError = require("./shared/errors/handle");
 const usersRoute = require("./modules/users/_api");
-// const guideRoute = require("./modules/guides/_api");
+const archiveRoute = require("./modules/archives/_api");
 // const userGuideRoute = require("./modules/user_guide/_api");
 
 const app = express();
@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use(usersRoute);
-// app.use(guideRoute);
+app.use(archiveRoute);
 // app.use(userGuideRoute);
 
 // app.use(handleError);
