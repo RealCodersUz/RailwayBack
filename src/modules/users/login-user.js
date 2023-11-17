@@ -18,7 +18,14 @@ async function loginUser({ username, password }) {
   }
 
   const token = jwt.sign(
-    { user: { id: existing._id, role: existing.role } },
+    {
+      user: {
+        id: existing._id,
+        role: existing.role,
+        name: existing.name,
+        branch_name: existing.branch_name,
+      },
+    },
     config.jwt.secret
   );
 

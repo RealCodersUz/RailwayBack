@@ -5,12 +5,21 @@ const config = require("./shared/config");
 // const handleError = require("./shared/errors/handle");
 const usersRoute = require("./modules/users/_api");
 const archiveRoute = require("./modules/archives/_api");
+const bodyParser = require("body-parser");
+const path = require("path");
 // const userGuideRoute = require("./modules/user_guide/_api");
 
 const app = express();
 
-app.use(express.json());
 app.use(cors());
+app.options("*", cors());
+
+app.use(express.json());
+app.use(bodyParser.json({ limit: "2000mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "2000mb" }));
+
+console.log(path.join(__dirname, "public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(usersRoute);
 app.use(archiveRoute);

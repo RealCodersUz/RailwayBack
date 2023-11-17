@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
+    name: {
+      type: mongoose.SchemaTypes.String,
+      required: true,
+    },
     branch_name: {
       type: mongoose.SchemaTypes.String,
       required: true,

@@ -20,9 +20,11 @@ const listArchives = require("./list_archives");
  */
 const postArchive = async (req, res, next) => {
   try {
-    httpValidator({ body: req.body }, postArchiveSchema);
+    console.log({ ...req.user }, "user");
+    console.log(req?.file?.originalname, "file");
 
-    const result = await addArchive(req.body);
+    httpValidator({ body: req.body }, postArchiveSchema);
+    const result = await addArchive(req.body, req.user, req.file.filename);
 
     res.status(201).json({
       data: result,
@@ -58,7 +60,7 @@ const patchArchive = async (req, res, next) => {
  */
 const getArchives = async (req, res, next) => {
   try {
-    const result = await listArchives();
+    const result = await listArchives(req.query);
 
     res.status(200).json({
       data: result,
