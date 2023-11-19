@@ -15,12 +15,22 @@ const isAdmin = require("../../shared/auth/is-admin");
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+  res.json({ run: "Ha ishlayabti, havotir bo'lmang" });
+});
+
+router.get("/dev", (req, res) => {
+  res.json({
+    BackEnd_Dasturchilar: {
+      1: "Saidqodirxon Rahimov",
+      2: "Muhammadjon Abduvahobov",
+    },
+  });
+});
+
 router.post("/users", isLoggedIn, isAdmin, postRegisterUser);
 router.get("/users", isLoggedIn, isAdmin, getUsers);
 router.post("/users/login", postLoginUser);
-router.get("/", (req, res) => {
-  res.json({ say: "hello" });
-});
 router.get("/users/me", isLoggedIn, getMe);
 router.get("/users/:id", isLoggedIn, isAdmin, getUser);
 router.get("/users/:id", isLoggedIn, isAdmin, getUsers);

@@ -1,10 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-const db = require("./db");
-const config = require("./shared/config");
+const db = require("./src/db");
+const config = require("./src/shared/config");
 // const handleError = require("./shared/errors/handle");
-const usersRoute = require("./modules/users/_api");
-const archiveRoute = require("./modules/archives/_api");
+const usersRoute = require("./src/modules/users/_api");
+const archiveRoute = require("./src/modules/archives/_api");
 const bodyParser = require("body-parser");
 const path = require("path");
 // const userGuideRoute = require("./modules/user_guide/_api");

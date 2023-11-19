@@ -4,6 +4,7 @@ const isAdmin = (req, res, next) => {
   try {
     const { role } = req.user;
     if (role !== "super_admin") {
+      console.log(role);
       return res.status(403).json({
         error: "Ruxsat berilmagan.",
       });
