@@ -32,7 +32,9 @@ async function loginUser({ username, password }) {
       { expiresIn: expiresIn }
     );
 
-    return token;
+    const role = existing.role;
+
+    return { token: token, role: role };
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
       console.error("Token expired:", error.expiredAt);

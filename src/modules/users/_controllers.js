@@ -45,10 +45,10 @@ const postLoginUser = async (req, res, next) => {
   try {
     httpValidator({ body: req.body }, postLoginUserSchema);
 
-    const result = await loginUser(req.body);
+    const data = await loginUser(req.body);
 
     res.status(200).json({
-      data: { token: result },
+      data,
     });
   } catch (error) {
     next(error);
