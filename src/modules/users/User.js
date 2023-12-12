@@ -25,11 +25,16 @@ const userSchema = new mongoose.Schema(
       type: mongoose.SchemaTypes.String,
       required: true,
     },
-
     is_deleted: {
       type: mongoose.SchemaTypes.Boolean,
       default: false,
     },
+    reports: [
+      {
+        type: mongoose.SchemaTypes.ObjectId,
+        auto: true,
+      },
+    ],
   },
   {
     versionKey: false,
