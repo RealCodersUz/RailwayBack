@@ -26,7 +26,7 @@ app.use(archiveRoute);
 // app.use(userGuideRoute);
 
 // app.use(handleError);
-
+// console.log(1);
 db().then(() => {
   app.listen(config.port, () => {
     console.log(`Server ${config.port}-portda ishlayapti.`);

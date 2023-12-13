@@ -13,12 +13,14 @@ const showArchive = require("./show-archive");
 const removeArchive = require("./remove-archive");
 const listArchives = require("./list_archives");
 
+console.log(12)
 /**
  * @param {express.Request} req
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
 const postArchive = async (req, res, next) => {
+  console.log(1)
   try {
     console.log({ ...req.user }, "user");
     console.log(req?.file?.originalname, "file");
@@ -30,6 +32,7 @@ const postArchive = async (req, res, next) => {
       data: result,
     });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
