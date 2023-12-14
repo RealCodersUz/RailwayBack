@@ -21,6 +21,10 @@ const archiveSchema = new mongoose.Schema(
       type: mongoose.SchemaTypes.String,
       required: true,
     },
+    year: {
+      type: mongoose.SchemaTypes.String,
+      required: true,
+    },
     file: {
       type: mongoose.SchemaTypes.String,
       required: true,

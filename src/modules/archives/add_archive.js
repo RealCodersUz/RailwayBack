@@ -1,15 +1,36 @@
 const User = require("../users/User");
 const Archive = require("./Archives");
-const options = {
-  day: "numeric",
-  month: "numeric",
-  year: "numeric",
-};
-let sana = new Date().getTime();
-console.log(sana, "time");
 async function addArchive(data, user, filename) {
   console.log(user.branch_name + "_" + data.month + "_" + data.type);
 
+  const options = {
+    day: "numeric",
+    month: "numeric",
+    year: "numeric",
+  };
+  let sana = new Date().getTime();
+
+  const monthsInUzbek = [
+    "Yanvar",
+    "Fevral",
+    "Mart",
+    "Aprel",
+    "May",
+    "Iyun",
+    "Iyul",
+    "Avgust",
+    "Sentabr",
+    "Oktabr",
+    "Noyabr",
+    "Dekabr",
+  ];
+
+  let month = new Date().getMonth();
+  let year = new Date().getFullYear();
+  let monthNameInUzbek = monthsInUzbek[month];
+  console.log(monthNameInUzbek);
+
+  console.log(sana, "time");
   const formattedDate = new Intl.DateTimeFormat("default", options).format(
     sana
   );
@@ -17,9 +38,12 @@ async function addArchive(data, user, filename) {
   console.log(formattedDate, "formattedDate");
 
   const result = await Archive.create({
-    name: sana + "_" + filename,
+    name: user.branch_name + "_" + replacedStr + "_" + data.type,
     // filename, user.branch_name + "_" + replacedStr + "_" + data.type
     file: filename,
+    branch_name: user.branch_name,
+    month: monthNameInUzbek,
+    year: year,
     ...data,
   });
 
