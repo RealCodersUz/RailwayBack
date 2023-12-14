@@ -22,15 +22,26 @@ async function addArchive(data, user, filename) {
     file: filename,
     ...data,
   });
-  console.log(user._id);
-  console.log(result._id);
-  console.log(result);
-  let userdata = await User.findByIdAndUpdate(user._id, {
-    $push: { reports: result._id },
-  });
-  console.log(userdata);
+
+  console.log(result, "result ifdan tashqarida ");
+
+  try {
+    if (result) {
+      console.log("iffga kirdi ");
+
+      let userdata = await User.findByIdAndUpdate(user.id, {
+        $push: { reports: result._id },
+      });
+
+      console.log(user, "user");
+      console.log(userdata, "user data");
+    }
+  } catch (error) {
+    console.log("Xatocha");
+  }
+
+  console.log(result, "result soʻngida");
   return result;
 }
-
 
 module.exports = addArchive;
