@@ -13,8 +13,14 @@ const archiveSchema = new mongoose.Schema(
     },
     type: {
       type: mongoose.SchemaTypes.String,
-      enum: ["rasxod", "shyot"],
-      default: "rasxod",
+      enum: [
+        "Расходы",
+        "Форма 69",
+        "Основные инструменты",
+        "Материальный отчет",
+        "Налог",
+      ],
+      default: "Расходы",
       required: true,
     },
     month: {

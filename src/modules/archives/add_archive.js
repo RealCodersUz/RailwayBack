@@ -42,8 +42,8 @@ async function addArchive(data, user, filename) {
     // filename, user.branch_name + "_" + replacedStr + "_" + data.type
     file: filename,
     branch_name: user.branch_name,
-    month: monthNameInUzbek,
-    year: year,
+    // month: monthNameInUzbek,
+    // year: year,
     ...data,
   });
 

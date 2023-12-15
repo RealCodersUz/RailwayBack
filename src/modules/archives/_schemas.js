@@ -5,7 +5,8 @@ exports.postArchiveSchema = {
     name: Joi.string(),
     // branch_name: Joi.string().required(),
     type: Joi.string().required(),
-    // month: Joi.string().required(),
+    month: Joi.string().required(),
+    year: Joi.string().required(),
   }),
 };
 
