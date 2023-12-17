@@ -38,7 +38,8 @@ async function addArchive(data, user, filename) {
   console.log(formattedDate, "formattedDate");
 
   const result = await Archive.create({
-    name: user.branch_name + "_" + replacedStr + "_" + data.type,
+    name:
+      user.branch_name + "_" + data.month + "_" + data.year + "_" + data.type,
     // filename, user.branch_name + "_" + replacedStr + "_" + data.type
     file: filename,
     branch_name: user.branch_name,
