@@ -10,7 +10,7 @@ async function showArchive({ id }) {
   );
 
   if (!archive) {
-    throw new NotFoundError("Foydalanuvchi topilmadi.");
+    throw new NotFoundError("Arxiv topilmadi.");
   }
 
   return archive;
