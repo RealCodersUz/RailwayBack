@@ -1,32 +1,29 @@
 const express = require("express");
 const httpValidator = require("../../shared/http-validator");
 const {
-  postArchiveSchema,
-  patchArchiveSchema,
-  showArchiveSchema,
-  deleteArchiveSchmea,
+  postValuesSchema,
+  patchValuesSchema,
+  showValuesSchema,
+  deleteValuesSchmea,
 } = require("./_schemas");
 //
-const addArchive = require("./add_archive");
-const editArchive = require("./edit_archive");
-const showArchive = require("./show-archive");
-const removeArchive = require("./remove-archive");
-const listArchives = require("./list_archives");
+const addValues = require("./add_value");
+// const editValues = require("./edit_Values");
+const showValues = require("./show-value");
+const removeValues = require("./remove-values");
+const listValues = require("./list_values");
 
-console.log(12);
 /**
  * @param {express.Request} req
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const postArchive = async (req, res, next) => {
-  console.log(1);
+const postValue = async (req, res, next) => {
   try {
-    console.log({ ...req.user }, "user");
-    console.log(req?.file?.originalname, "file");
+    // console.log({ ...req.user }, "user");
 
-    httpValidator({ body: req.body }, postArchiveSchema);
-    const result = await addArchive(req.body, req.user, req.file.filename);
+    httpValidator({ body: req.body }, postValuesSchema);
+    const result = await addValues(req.body, req.user);
 
     res.status(201).json({
       data: result,
@@ -42,11 +39,28 @@ const postArchive = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const patchArchive = async (req, res, next) => {
-  try {
-    httpValidator({ body: req.body }, patchArchiveSchema);
+// const patchArchive = async (req, res, next) => {
+//   try {
+//     httpValidator({ body: req.body }, patchArchiveSchema);
 
-    const result = await editArchive({ id: req.params.id, ...req.body });
+//     const result = await editArchive({ id: req.params.id, ...req.body });
+
+//     res.status(200).json({
+//       data: result,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+/**
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {express.NextFunction} next
+ */
+const getValues = async (req, res, next) => {
+  try {
+    const result = await listValues(req.query, req.user.id);
 
     res.status(200).json({
       data: result,
@@ -61,9 +75,10 @@ const patchArchive = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const getArchives = async (req, res, next) => {
+
+const getValue = async (req, res, next) => {
   try {
-    const result = await listArchives(req.query, req.user.id);
+    const result = await showValues({ id: req.params.id }, showValuesSchema);
 
     res.status(200).json({
       data: result,
@@ -78,29 +93,11 @@ const getArchives = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-
-const getArchive = async (req, res, next) => {
+const deleteValue = async (req, res, next) => {
   try {
-    const result = await showArchive({ id: req.params.id }, showArchiveSchema);
-
-    res.status(200).json({
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-/**
- * @param {express.Request} req
- * @param {express.Response} res
- * @param {express.NextFunction} next
- */
-const deleteArchive = async (req, res, next) => {
-  try {
-    const result = await removeArchive(
+    const result = await removeValues(
       { id: req.params.id },
-      deleteArchiveSchmea
+      deleteValuesSchmea
     );
 
     res.status(200).json({
@@ -112,9 +109,9 @@ const deleteArchive = async (req, res, next) => {
 };
 
 module.exports = {
-  postArchive,
-  getArchive,
-  getArchives,
-  patchArchive,
-  deleteArchive,
+  postValue,
+  getValue,
+  getValues,
+  // patchArchive,
+  deleteValue,
 };
