@@ -1,5 +1,5 @@
 const { NotFoundError } = require("../../shared/errors");
-const Archive = require("./Archives");
+const Archive = require("./Values");
 
 const removeArchive = async ({ id }) => {
   const existing = await Archive.findOne({ _id: id, is_deleted: false });

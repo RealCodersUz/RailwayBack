@@ -1,5 +1,5 @@
 const User = require("../users/User");
-const Archive = require("./Archives");
+const Archive = require("./Values");
 async function addArchive(data, user) {
   // console.log(user.branch_name + "_" + data.month + "_" + data.type);
 

@@ -1,5 +1,5 @@
 const { NotFoundError } = require("../../shared/errors");
-const User = require("./Archives");
+const User = require("./Values");
 async function editUser({ id, ...changes }) {
   const existing = await User.findOne({ _id: id, is_deleted: false });
 

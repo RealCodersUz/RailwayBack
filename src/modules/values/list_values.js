@@ -1,6 +1,6 @@
 const { NotFoundError } = require("../../shared/errors");
 const User = require("../users/User");
-const Archive = require("./Archives");
+const Archive = require("./Values");
 
 async function listArchives(reqQuery, userId) {
   const {
