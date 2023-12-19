@@ -2,11 +2,12 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./src/db");
 const config = require("./src/shared/config");
-// const handleError = require("./shared/errors/handle");
-const usersRoute = require("./src/modules/users/_api");
-const archiveRoute = require("./src/modules/archives/_api");
 const bodyParser = require("body-parser");
 const path = require("path");
+// const handleError = require("./shared/errors/handle");
+const usersRoute = require("./src/modules/users/_api");
+const valuesRoute = require("./src/modules/values/_api");
+const archiveRoute = require("./src/modules/archives/_api");
 // const userGuideRoute = require("./modules/user_guide/_api");
 
 const app = express();
@@ -22,6 +23,7 @@ console.log(path.join(__dirname, "public"));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(usersRoute);
+app.use(valuesRoute);
 app.use(archiveRoute);
 // app.use(userGuideRoute);
 
