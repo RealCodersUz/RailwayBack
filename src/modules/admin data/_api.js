@@ -11,10 +11,10 @@ const isAdmin = require("../../shared/auth/is-admin");
 
 const router = express.Router();
 
-router.post("/value", isLoggedIn, postValue);
-router.get("/value", isLoggedIn, getValues);
-router.get("/value/:id", isLoggedIn, getValue);
-router.delete("/value/:id", isLoggedIn, isAdmin, deleteValue);
+router.post("/admdata", isLoggedIn, postValue);
+router.get("/admdata", isLoggedIn,isAdmin, getValues);
+router.get("/admdata/:id", isLoggedIn,isAdmin, getValue);
+router.delete("/admdata/:id", isLoggedIn, isAdmin, deleteValue);
 // router.patch("/archive/:id", isLoggedIn, isAdmin, patchArchive);
 
 module.exports = router;

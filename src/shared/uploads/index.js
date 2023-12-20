@@ -28,7 +28,7 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const mname = req.body.type;
     console.log(mname);
-    console.log("data", req.body);
+    console.log("data", req.body.month);
     const foundReport = reportsData.find((report) => report.name === mname);
     console.log(foundReport);
     if (foundReport) {

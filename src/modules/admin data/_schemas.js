@@ -9,7 +9,7 @@ exports.postValuesSchema = {
   }),
 };
 
-exports.showValuesSchema = {
+exports.showAdmDataSchema = {
   params: Joi.object({
     id: Joi.string(),
   }),

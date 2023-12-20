@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 
-const valuesSchema = new mongoose.Schema(
+const AdmDataSchema = new mongoose.Schema(
   {
-    
     month: {
       type: mongoose.SchemaTypes.String,
       required: true,
@@ -13,6 +12,7 @@ const valuesSchema = new mongoose.Schema(
     },
     values: {
       type: mongoose.SchemaTypes.Array,
+      required: true,
     },
     is_deleted: {
       type: mongoose.SchemaTypes.Boolean,
@@ -28,6 +28,6 @@ const valuesSchema = new mongoose.Schema(
   }
 );
 
-const Values = mongoose.model("Values", valuesSchema);
+const AdmData = mongoose.model("AdmData", AdmDataSchema);
 
-module.exports = Values;
+module.exports = AdmData;

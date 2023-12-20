@@ -2,16 +2,16 @@ const express = require("express");
 const httpValidator = require("../../shared/http-validator");
 const {
   postValuesSchema,
-  patchValuesSchema,
-  showValuesSchema,
+  // patchValuesSchema,
+  showAdmDataSchema,
   deleteValuesSchmea,
 } = require("./_schemas");
 //
 const addValues = require("./add_value");
 // const editValues = require("./edit_Values");
-const showValues = require("./show-value");
-const removeValues = require("./remove-values");
-const listValues = require("./list_values");
+const showAdmDAta = require("./show_adm_data");
+// const removeAdmDAta = require("./remove-AdmDAta");
+const listAdmDAta = require("./list_adm_data");
 
 /**
  * @param {express.Request} req
@@ -58,9 +58,9 @@ const postValue = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
-const getValues = async (req, res, next) => {
+const getAdmDAtas = async (req, res, next) => {
   try {
-    const result = await listValues(req.query, req.user.id);
+    const result = await listAdmDAta(req.query, req.user.id);
 
     res.status(200).json({
       data: result,
@@ -76,9 +76,9 @@ const getValues = async (req, res, next) => {
  * @param {express.NextFunction} next
  */
 
-const getValue = async (req, res, next) => {
+const getAdmData = async (req, res, next) => {
   try {
-    const result = await showValues({ id: req.params.id }, showValuesSchema);
+    const result = await showAdmDAta({ id: req.params.id }, showAdmDataSchema);
 
     res.status(200).json({
       data: result,
@@ -110,8 +110,8 @@ const deleteValue = async (req, res, next) => {
 
 module.exports = {
   postValue,
-  getValue,
-  getValues,
+  getAdmData,
+  getAdmDAtas,
   // patchArchive,
   deleteValue,
 };

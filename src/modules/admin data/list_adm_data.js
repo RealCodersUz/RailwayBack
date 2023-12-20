@@ -3,7 +3,7 @@ const User = require("../users/User");
 const Values = require("./AdmData");
 // const Archive = require("./Values");
 
-async function listArchives(reqQuery, userId) {
+async function listAdmData(reqQuery, userId) {
   const {
     search,
     category,
@@ -73,4 +73,4 @@ async function listArchives(reqQuery, userId) {
   // return query;
 }
 
-module.exports = listArchives;
+module.exports = listAdmData;
