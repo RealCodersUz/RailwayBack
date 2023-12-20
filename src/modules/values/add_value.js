@@ -5,7 +5,7 @@ async function addArchive(data, user) {
   const result = await Archive.create({
     month: "Yanvar",
     year: "2023",
-    branch: user.branch_name,
+    branch_name: "Sirdaryo",
     data,
   });
 
