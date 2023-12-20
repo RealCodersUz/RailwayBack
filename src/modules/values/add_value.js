@@ -1,32 +1,20 @@
 const User = require("../users/User");
 const Archive = require("./Values");
 async function addArchive(data, user) {
+  console.log(user.branch_name, "branch_name");
+  console.log(data.month, "month");
+  console.log(data.year, "year");
+  console.log(data.values, "values");
 
   const result = await Archive.create({
-    month: "Yanvar",
-    year: "2023",
-    branch_name: "Sirdaryo",
-    data,
+    month: data.month,
+    year: data.year,
+    branch_name: user.branch_name,
+    values: data.values,
   });
 
-  console.log(result, "result ifdan tashqarida ");
+  console.log(result, "result");
 
-  // try {
-  //   if (result) {
-  //     console.log("iffga kirdi ");
-
-  //     let userdata = await User.findByIdAndUpdate(user.id, {
-  //       $push: { reports: result._id },
-  //     });
-
-  //     console.log(user, "user");
-  //     console.log(userdata, "user data");
-  //   }
-  // } catch (error) {
-  //   console.log("Xatocha");
-  // }
-
-  // console.log(result, "result soʻngida");
   return result;
 }
 

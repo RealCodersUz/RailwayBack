@@ -6,7 +6,6 @@ const valuesSchema = new mongoose.Schema(
       type: mongoose.SchemaTypes.String,
       required: true,
     },
-
     month: {
       type: mongoose.SchemaTypes.String,
       required: true,
@@ -15,9 +14,8 @@ const valuesSchema = new mongoose.Schema(
       type: mongoose.SchemaTypes.String,
       required: true,
     },
-    data: {
+    values: {
       type: mongoose.SchemaTypes.Array,
-      unique: true,
     },
     is_deleted: {
       type: mongoose.SchemaTypes.Boolean,

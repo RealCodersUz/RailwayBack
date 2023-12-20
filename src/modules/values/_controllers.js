@@ -26,7 +26,7 @@ const postValue = async (req, res, next) => {
     const result = await addValues(req.body, req.user);
 
     res.status(201).json({
-      data: result,
+      ...result,
     });
   } catch (error) {
     console.log(error);
