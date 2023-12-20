@@ -1,6 +1,7 @@
 const { NotFoundError } = require("../../shared/errors");
 const User = require("../users/User");
-const Archive = require("./Values");
+const Values = require("./Values");
+// const Archive = require("./Values");
 
 async function listArchives(reqQuery, userId) {
   const {
@@ -14,10 +15,11 @@ async function listArchives(reqQuery, userId) {
     month,
     year,
   } = reqQuery;
-  let user = await User.findById(userId);
-  console.log(userId);
-  console.log(user.reports);
-  let query = Archive.find({ _id: user.reports[0], is_deleted: false });
+  // let user = await User.findById(userId);
+  // console.log(userId);
+  // console.log(user.reports);
+  // let query = Archive.find({ _id: user.reports[0], is_deleted: false });
+  let query = Values.find({ is_deleted: false });
   try {
     if (search) {
       query = query.find({
@@ -40,14 +42,17 @@ async function listArchives(reqQuery, userId) {
     if (offset) {
       query = query.skip(parseInt(offset, 10));
     }
-    const archives = await query.exec();
-    const archiveQuery = Archive.find({
-      type: type,
+    // const archives = await query.exec();
+    console.log(1);
+    const datas = await Values.find({ is_deleted: false });
+    console.log(datas);
+    const valuesQuery = Values.find({
+      // type: type,
       month: month,
       year: year,
-      _id: { $in: user.reports }, // To'plamdagi ID lar bilan solishtirish
+      // _id: { $in: user.reports }, // To'plamdagi ID lar bilan solishtirish
     });
-    let archiveOwn = await archiveQuery.exec();
+    let valuesOwn = await valuesQuery.exec();
     // (err, results) => {
     //   if (err) {
     //     console.error("Xatolik yuz berdi: ", err); // Xatolikni chiqaring
@@ -55,7 +60,7 @@ async function listArchives(reqQuery, userId) {
     //     console.log("Topilgan natijalar: ", results); // Natijalarni chiqaring
     //   }
     // }
-    return archiveOwn;
+    return valuesOwn;
   } catch (err) {
     return err.message;
   }

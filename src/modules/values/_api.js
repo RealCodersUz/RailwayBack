@@ -14,7 +14,7 @@ const router = express.Router();
 router.post("/value", isLoggedIn, postValue);
 router.get("/value", isLoggedIn, getValues);
 router.get("/value/:id", isLoggedIn, getValue);
-router.delete("/archive/:id", isLoggedIn, isAdmin, deleteValue);
+router.delete("/value/:id", isLoggedIn, isAdmin, deleteValue);
 // router.patch("/archive/:id", isLoggedIn, isAdmin, patchArchive);
 
 module.exports = router;
