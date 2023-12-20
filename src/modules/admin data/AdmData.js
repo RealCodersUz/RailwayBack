@@ -2,14 +2,14 @@ const mongoose = require("mongoose");
 
 const valuesSchema = new mongoose.Schema(
   {
-    branch_name: {
-      type: mongoose.SchemaTypes.String,
-    },
+    
     month: {
       type: mongoose.SchemaTypes.String,
+      required: true,
     },
     year: {
       type: mongoose.SchemaTypes.String,
+      required: true,
     },
     values: {
       type: mongoose.SchemaTypes.Array,
