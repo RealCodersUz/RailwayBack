@@ -15,6 +15,7 @@ const reportsData = [
   { name: "Основные инструменты", nameLn: "Osnovnie_sredstvo.xlsx" },
   { name: "Материальный отчет", nameLn: "Materialni_Otchet.xlsx" },
   { name: "Налог", nameLn: "Nalog.xlsx" },
+  { name: "Расход рашировка", nameLn: "rasxod_rashirovka.xlsx" },
 ];
 let sana = new Date().getTime();
 console.log(sana, "time");

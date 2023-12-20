@@ -25,7 +25,7 @@ const postValue = async (req, res, next) => {
     httpValidator({ body: req.body }, postValuesSchema);
     const result = await addValues(req.body, req.user);
 
-    res.status(201).json({
+    res.status(200).json({
       ...result,
     });
   } catch (error) {

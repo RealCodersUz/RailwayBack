@@ -28,6 +28,8 @@ const postArchive = async (req, res, next) => {
     httpValidator({ body: req.body }, postArchiveSchema);
     const result = await addArchive(req.body, req.user, req.file.filename);
 
+    console.log(req.file, "file");
+
     res.status(201).json({
       data: result,
     });
