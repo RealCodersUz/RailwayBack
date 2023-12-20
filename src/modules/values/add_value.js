@@ -1,7 +1,7 @@
 const User = require("../users/User");
 const Archive = require("./Values");
 async function addArchive(data, user) {
-
+  console.log("qwer",user);
   const result = await Archive.create({
     month: "Yanvar",
     year: "2023",
