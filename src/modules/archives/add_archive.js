@@ -63,6 +63,7 @@ async function addArchive(data, user, filename) {
     }
   } catch (error) {
     console.log("Xatocha");
+    return error();
   }
 
   console.log(result, "result soʻngida");

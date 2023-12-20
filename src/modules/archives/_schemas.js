@@ -7,7 +7,6 @@ exports.postArchiveSchema = {
     type: Joi.string().required(),
     year: Joi.string().required(),
     month: Joi.string().required(),
-    year: Joi.string().required(),
   }),
 };
 
@@ -23,9 +22,10 @@ exports.patchArchiveSchema = {
   }),
   body: Joi.object({
     name: Joi.string(),
-    branch_name: Joi.string(),
-    type: Joi.string(),
-    month: Joi.string(),
+    // branch_name: Joi.string().required(),
+    type: Joi.string().required(),
+    year: Joi.string().required(),
+    month: Joi.string().required(),
   }),
 };
 
