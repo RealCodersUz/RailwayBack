@@ -1,4 +1,4 @@
-const AdmData = require("../admin data/AdmData");
+const AdmData = require("../admin_data/AdmData");
 const User = require("../users/User");
 const Values = require("./Values");
 
@@ -9,18 +9,20 @@ async function addValues(data, user) {
   // console.log(data.year, "year");
   // console.log(data.values, "values");
   let query = await AdmData.find({ month: data.month, year: data.year });
-  console.log(query?.values);
-  if (query?.values) {
-    let updatedValues = query.values.map(
+  console.log(query);
+  if (query[0]) {
+    console.log(query[0].values, "ifga kirdi");
+    let updatedValues = query[0].values.map(
       (value, index) => value + data.values[index]
     );
+    console.log(updatedValues, "updated");
     let res = await AdmData.findByIdAndUpdate(
-      query._id,
+      query[0]._id,
       { values: updatedValues },
       { new: true } // To get the updated document after the update
     );
 
-    console.log(res);
+    console.log(res, "bu res");
   } else {
     console.log(data.values);
     let newDocument = await AdmData.create({
