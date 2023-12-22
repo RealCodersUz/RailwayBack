@@ -1,50 +1,67 @@
 // const AdmData = require("../admin_data/AdmData");
 // const User = require("../users/User");
 const Rasxod = require("./Rasxod");
+const Archives = require("../archives/Archives");
+const XLSX = require("xlsx");
+const fs = require("fs");
 
 async function addRasxod(data, user) {
-  // console.log("qwer",user);
-  // console.log(user.branch_name, "branch_name");
-  // console.log(data.month, "month");
-  // console.log(data.year, "year");
-  // console.log(data.values, "values");
-  // let query = await AdmData.find({ month: data.month, year: data.year });
-  // console.log(query);
-  // if (query[0]) {
-  // console.log(query[0].values, "ifga kirdi");
-  //   let updatedValues = query[0].values.map(
-  //     (value, index) => value + data.values[index]
-  //   );
-  //   console.log(updatedValues, "updated");
-  //   let res = await AdmData.findByIdAndUpdate(
-  //     query[0]._id,
-  //     { values: updatedValues },
-  //     { new: true } // To get the updated document after the update
-  //   );
+  console.log("1", data.file);
+  // console.log("2", data.file[0]);
+  const wb = XLSX.utils.book_new();
+  const wsName = "Sheet1";
+  const ws = XLSX.utils.json_to_sheet(data.file[0]);
+  XLSX.utils.book_append_sheet(wb, ws, wsName);
 
-  //   console.log(res, "bu res");
-  // } else {
-  // console.log(data.values);
-  // let newDocument = await AdmData.create({
-  //   month: data.month,
-  //   year: data.year,
-  //   values: data.values,
-  // });
+  const excelBuffer = XLSX.write(wb, {
+    bookType: "xlsx",
+    type: "buffer",
+    mimeType:
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  });
 
-  // let res = await newDocument.save();
-  //   console.log(newDocument);
-  // }
+  fs.writeFileSync(
+    "public/" +
+      user.branch_name +
+      "_" +
+      data.month +
+      "_" +
+      data.year +
+      "_rasxod_aperativniy.xlsx",
+    // wb,
+    excelBuffer
+  );
+
+  console.log("Excel fayli generatsiya qilindi: new.xlsx");
+
   try {
     console.log(user, "user");
-    const result = await Rasxod.create({
+    let archive = Archives.create({
       month: data.month,
       year: data.year,
       branch_name: user.branch_name,
-      values: data.values,
+      file:
+        user.branch_name +
+        "_" +
+        data.month +
+        "_" +
+        data.year +
+        "_rasxod_aperativniy.xlsx",
+      type: "Расходы",
     });
-    console.log(result, "added");
-
-    return result;
+    console.log(archive);
+    if (archive) {
+      const result = await Rasxod.create({
+        month: data.month,
+        year: data.year,
+        branch_name: user.branch_name,
+        values: data.values,
+        file: data.file,
+      });
+      console.log(result, "added");
+      return result;
+    }
+    return;
   } catch (error) {
     console.error(error.message);
     return { error: error.message };

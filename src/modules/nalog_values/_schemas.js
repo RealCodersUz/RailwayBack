@@ -4,6 +4,7 @@ exports.postValuesSchema = {
   body: Joi.object({
     year: Joi.string(),
     month: Joi.string(),
+    file: Joi.array(),
     values: Joi.array(),
     branch_name: Joi.string(),
   }),

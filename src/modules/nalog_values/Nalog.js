@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const valuesSchema = new mongoose.Schema(
+const nalogSchema = new mongoose.Schema(
   {
     branch_name: {
       type: mongoose.SchemaTypes.String,
@@ -11,9 +11,11 @@ const valuesSchema = new mongoose.Schema(
     year: {
       type: mongoose.SchemaTypes.String,
     },
+    file: {
+      type: mongoose.SchemaTypes.Array,
+    },
     values: {
       type: mongoose.SchemaTypes.Array,
-      unique: false,
     },
     is_deleted: {
       type: mongoose.SchemaTypes.Boolean,
@@ -29,6 +31,6 @@ const valuesSchema = new mongoose.Schema(
   }
 );
 
-const Values = mongoose.model("Values", valuesSchema);
+const Nalog = mongoose.model("Nalog", nalogSchema);
 
-module.exports = Values;
+module.exports = Nalog;

@@ -1,8 +1,8 @@
 const { NotFoundError } = require("../../shared/errors");
-const Archive = require("./Values");
+const Archive = require("./Nalog");
 /**
  * @param {object} deps
- * @param {import('./Values')} deps.Archive
+ * @param {import('./Nalog')} deps.Archive
  */
 async function showArchive({ id }) {
   const archive = await Archive.findOne({ _id: id, is_deleted: false }).select(

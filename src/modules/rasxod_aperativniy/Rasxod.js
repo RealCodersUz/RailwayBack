@@ -11,6 +11,10 @@ const RasxodSchema = new mongoose.Schema(
     year: {
       type: mongoose.SchemaTypes.String,
     },
+    file: {
+      type: mongoose.SchemaTypes.Array,
+      unique: false,
+    },
     values: {
       type: mongoose.SchemaTypes.Array,
       unique: false,

@@ -5,6 +5,7 @@ exports.postRasxodSchema = {
     year: Joi.string(),
     month: Joi.string(),
     values: Joi.array(),
+    file: Joi.array(),
     branch_name: Joi.string(),
   }),
 };
