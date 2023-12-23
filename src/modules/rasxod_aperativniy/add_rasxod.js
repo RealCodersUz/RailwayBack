@@ -10,7 +10,7 @@ async function addRasxod(data, user) {
   // console.log("2", data.file[0]);
   const wb = XLSX.utils.book_new();
   const wsName = "Sheet1";
-  const ws = XLSX.utils.json_to_sheet(data.file[0]);
+  const ws = XLSX.utils.json_to_sheet(data.file);
   XLSX.utils.book_append_sheet(wb, ws, wsName);
 
   const excelBuffer = XLSX.write(wb, {
@@ -37,6 +37,13 @@ async function addRasxod(data, user) {
   try {
     console.log(user, "user");
     let archive = Archives.create({
+      name:
+        user.branch_name +
+        "_" +
+        data.month +
+        "_" +
+        data.year +
+        "_rasxod_aperativniy",
       month: data.month,
       year: data.year,
       branch_name: user.branch_name,
