@@ -1,7 +1,9 @@
 const Nalog = require("./Nalog");
 const Saldo = require("./Saldo");
 const Archives = require("../archives/Archives");
-const { json } = require("body-parser");
+const XLSX = require("xlsx");
+const fs = require("fs");
+// const { json } = require("body-parser");
 
 async function addNalog(data, user) {
   let dates = [
@@ -19,12 +21,14 @@ async function addNalog(data, user) {
     { name: "Dekabr", number: "12" },
   ];
   let targetMonthData = dates.find((month) => month.name === data.month);
+  let targetIndex = dates.findIndex((month) => month.name === data.month);
 
-  if (targetMonthData) {
-    console.log("Name:", targetMonthData.name);
-    console.log("Number:", targetMonthData.number);
+  if (targetIndex !== -1 && targetIndex > 0) {
+    let previousMonthData = dates[targetIndex - 1];
+    console.log("Previous Month Name:", previousMonthData.name);
+    console.log("Previous Month Number:", previousMonthData.number);
   } else {
-    console.log("Bunday oy topilmadi");
+    console.log("Bunday oy topilmadi yoki u birinchi oy");
   }
   const wb = XLSX.utils.book_new();
   const wsName = "Sheet1";
@@ -51,13 +55,14 @@ async function addNalog(data, user) {
   );
 
   console.log("Excel fayli generatsiya qilindi: ${}.xlsx");
-  try {
-    let saldoData = Saldo.find({
-      
-      date: "01." + targetMonthData.number + "." + data.year,
-      is_deleted: false,
-    });
-  } catch (error) {}
+  // try {
+  let saldoData = await Saldo.find({
+    branch_name: user.branch_name,
+    date: "01." + targetMonthData.number + "." + data.year,
+    is_deleted: false,
+  });
+  console.log(saldoData);
+  // } catch (error) {}
   // let query = await AdmData.find({ month: data.month, year: data.year });
   // console.log(query);
   // if (query[0]) {
@@ -86,7 +91,17 @@ async function addNalog(data, user) {
   // }
   try {
     console.log(user, "user");
+    let newSaldo = await Saldo.create({
+      date: "01." + targetMonthData.number + "." + data.year,
+      branch_name: user.branch_name,
+      values: data.values,
+      // file:
+      //   user.branch_name + "_" + data.month + "_" + data.year + "_nalog.xlsx",
+      type: "Налог",
+    });
+    console.log(newSaldo);
     let archive = Archives.create({
+      name: user.branch_name + "_" + data.month + "_" + data.year + "_nalog",
       month: data.month,
       year: data.year,
       branch_name: user.branch_name,

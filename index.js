@@ -10,7 +10,7 @@ const admData = require("./src/modules/admin_data/_api");
 const valuesRoute = require("./src/modules/values/_api");
 const archiveRoute = require("./src/modules/archives/_api");
 const rasxodRoute = require("./src/modules/rasxod_aperativniy/_api");
-// const userGuideRoute = require("./modules/user_guide/_api");
+const nalogRaute = require("./src/modules/nalog_values/_api");
 
 const app = express();
 
@@ -29,7 +29,7 @@ app.use(valuesRoute);
 app.use(archiveRoute);
 app.use(admData);
 app.use(rasxodRoute);
-// app.use(userGuideRoute);
+app.use(nalogRaute);
 
 // app.use(handleError);
 // console.log(1);
