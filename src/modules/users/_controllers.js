@@ -7,6 +7,7 @@ const {
   patchUserSchema,
   showUserSchema,
   deleteUserSchmea,
+  updatePasswordSchema,
 } = require("./_schemas");
 //
 const addUser = require("./add-user");
@@ -15,6 +16,7 @@ const showUser = require("./show-user");
 const removeUser = require("./remove-user");
 const loginUser = require("./login-user");
 const listUsers = require("./list_users");
+const editUserPassword = require("./editUserPassword");
 //
 
 /**
@@ -78,6 +80,20 @@ const patchMe = async (req, res, next) => {
  * @param {express.Response} res
  * @param {express.NextFunction} next
  */
+const updatePassword = async (req, res, next) => {
+  try {
+    httpValidator({ body: req.body }, updatePasswordSchema);
+
+    const result = await editUserPassword({ id: req.params.id, ...req.body });
+
+    res.status(200).json({
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const patchUser = async (req, res, next) => {
   try {
     httpValidator({ body: req.body }, patchUserSchema);
@@ -178,6 +194,7 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
+  updatePassword,
   postRegisterUser,
   postLoginUser,
   patchMe,

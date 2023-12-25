@@ -10,6 +10,7 @@ const {
   deleteUser,
   patchUser,
   getUsers,
+  updatePassword,
 } = require("./_controllers");
 const isAdmin = require("../../shared/auth/is-admin");
 
@@ -36,6 +37,9 @@ router.get("/users/:id", isLoggedIn, isAdmin, getUser);
 router.get("/users/:id", isLoggedIn, isAdmin, getUsers);
 router.patch("/users/me", isLoggedIn, patchMe);
 router.patch("/users/:id", isLoggedIn, isAdmin, patchUser);
+
+router.patch("/users/editpass/:id", isLoggedIn, isAdmin, updatePassword);
+
 // router.delete("/users/me", isLoggedIn,isAdmin, deleteMe);
 router.delete("/users/:id", isLoggedIn, isAdmin, deleteUser);
 
