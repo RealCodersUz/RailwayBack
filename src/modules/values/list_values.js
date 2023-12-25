@@ -17,11 +17,11 @@ async function listArchives(reqQuery, userId) {
     branch_name,
   } = reqQuery;
   // let user = await User.findById(userId);
-  // console.log(userId);
+  console.log(userId);
   // console.log(user.reports);
   // let query = Archive.find({ _id: user.reports[0], is_deleted: false });
-  let user = User.findById({ _id: userId, is_deleted: false });
   try {
+    let user = await User.findById({ _id: userId, is_deleted: false });
     //   if (search) {
     //     query = query.find({
     //       $or: [{ name: { $regex: search, $options: "i" } }],
@@ -46,7 +46,21 @@ async function listArchives(reqQuery, userId) {
     // const archives = await query.exec();
     // console.log(1);
     // const datas = await Values.find({ is_deleted: false });
-    // console.log(datas);
+    console.log(branch_name, user.role);
+    if (user.role == "super_admin" && branch_name == "Общий") {
+      console.log("were");
+      const valuesQuery = await Values.find({
+        // type: type,
+        // branch_name: branch_name,
+        month: month,
+        year: year,
+        // _id: { $in: user.reports }, // To'plamdagi ID lar bilan solishtirish
+      });
+      // let valuesOwn = await valuesQuery.exec();
+      console.log(valuesQuery);
+      return valuesQuery;
+    }
+    console.log(user.role);
     if (user.role !== "super_admin" && branch_name !== "Общий") {
       const valuesQuery = Values.find({
         // type: type,
@@ -71,26 +85,14 @@ async function listArchives(reqQuery, userId) {
 
       return valuesOwn;
     }
-    if (user.role == "super_admin" && branch_name == "Общий") {
-      const valuesQuery = Values.find({
-        // type: type,
-        // branch_name: branch_name,
-        month: month,
-        year: year,
-        // _id: { $in: user.reports }, // To'plamdagi ID lar bilan solishtirish
-      });
-      let valuesOwn = await valuesQuery.exec();
-
-      return valuesOwn;
-    }
   } catch (err) {
     return err.message;
   }
   // const archive = await Archive.find().select("-is_deleted");
 
-  if (!query) {
-    throw new NotFoundError("Arxiv topilmadi.");
-  }
+  // if (!query) {
+  //   throw new NotFoundError("Arxiv topilmadi.");
+  // }
 
   // return query;
 }

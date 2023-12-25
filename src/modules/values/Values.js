@@ -13,7 +13,6 @@ const valuesSchema = new mongoose.Schema(
     },
     values: {
       type: mongoose.SchemaTypes.Array,
-      unique: false,
     },
     is_deleted: {
       type: mongoose.SchemaTypes.Boolean,
