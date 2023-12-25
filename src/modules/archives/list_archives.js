@@ -43,14 +43,28 @@ async function listArchives(reqQuery, userId) {
     //   }
     // const archives = await query.exec();
     console.log(type, user.branch_name, month, year);
-    const archiveQuery = await Archive.find({
-      // type: type,
-      branch_name: user.branch_name,
-      month: month,
-      year: year,
-      // _id: { $in: user.reports }, // To'plamdagi ID lar bilan solishtirish
-    });
-    console.log(archiveQuery);
+    if (user.role == "super_admin") {
+      const archiveQuery = await Archive.find({
+        type: type,
+        branch_name: branch_name,
+        month: month,
+        year: year,
+        // _id: { $in: user.reports }, // To'plamdagi ID lar bilan solishtirish
+      });
+      console.log(archiveQuery);
+      return archiveQuery;
+    }
+    if (user.role !== "super_admin") {
+      const archiveQuery = await Archive.find({
+        type: type,
+        branch_name: user.branch_name,
+        month: month,
+        year: year,
+        // _id: { $in: user.reports }, // To'plamdagi ID lar bilan solishtirish
+      });
+      console.log(archiveQuery);
+      return archiveQuery;
+    }
     // let archiveOwn = await archiveQuery.exec();
     // console.log(archiveOwn);
     // (err, results) => {
@@ -60,7 +74,6 @@ async function listArchives(reqQuery, userId) {
     //     console.log("Topilgan natijalar: ", results); // Natijalarni chiqaring
     //   }
     // }
-    return archiveQuery;
   } catch (err) {
     return err.message;
   }

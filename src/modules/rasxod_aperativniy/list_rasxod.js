@@ -1,9 +1,9 @@
-const { NotFoundError } = require("../../shared/errors");
+const { NotFoundError, UnauthorizedError } = require("../../shared/errors");
 const User = require("../users/User");
 const Rasxod = require("./Rasxod");
 // const Archive = require("./Rasxod");
 
-async function listArchives(reqQuery) {
+async function listArchives(reqQuery, user) {
   const {
     search,
     category,
@@ -14,6 +14,7 @@ async function listArchives(reqQuery) {
     type,
     month,
     year,
+    branch_name,
   } = reqQuery;
   // let user = await User.findById(userId);
   // console.log(userId);
@@ -46,13 +47,52 @@ async function listArchives(reqQuery) {
     // console.log(1);
     const datas = await Rasxod.find({ is_deleted: false });
     console.log(datas);
-    const RasxodQuery = Rasxod.find({
-      // type: type,
-      month: month,
-      year: year,
-      // _id: { $in: user.reports }, // To'plamdagi ID lar bilan solishtirish
-    });
-    let RasxodOwn = await RasxodQuery.exec();
+
+    if (user.role == "super_admin" && branch_name !== "Общий") {
+      const RasxodQuery = Rasxod.find({
+        type: type,
+        branch_name: branch_name,
+        month: month,
+        year: year,
+        // _id: { $in: user.reports }, // To'plamdagi ID lar bilan solishtirish
+      });
+      let RasxodOwn = await RasxodQuery.exec();
+      return RasxodOwn;
+    }
+    if (user.role == "super_admin" && branch_name == "Общий") {
+      // console.log("bu obshiy");
+      const RasxodQuery = Rasxod.find({
+        // type: type,
+        // branch_name: branch_name,
+        month: month,
+        year: year,
+        // _id: { $in: user.reports }, // To'plamdagi ID lar bilan solishtirish
+      });
+      let RasxodOwn = await RasxodQuery.exec();
+      return RasxodOwn;
+    }
+    if (user.role !== "super_admin" && branch_name !== "Общий") {
+      const RasxodQuery = Rasxod.find({
+        type: type,
+        branch_name: user.branch_name,
+        month: month,
+        year: year,
+        _id: { $in: user.reports }, // To'plamdagi ID lar bilan solishtirish
+      });
+      let RasxodOwn = await RasxodQuery.exec();
+      return RasxodOwn;
+    }
+    if (user.role !== "super_admin" && branch_name == "Общий") {
+      // const RasxodQuery = Rasxod.find({
+      //   type: type,
+      //   // branch_name: branch_name,
+      //   month: month,
+      //   year: year,
+      //   _id: { $in: user.reports }, // To'plamdagi ID lar bilan solishtirish
+      // });
+      // let RasxodOwn = await RasxodQuery.exec();
+      return new UnauthorizedError();
+    }
     // (err, results) => {
     //   if (err) {
     //     console.error("Xatolik yuz berdi: ", err); // Xatolikni chiqaring
@@ -60,7 +100,6 @@ async function listArchives(reqQuery) {
     //     console.log("Topilgan natijalar: ", results); // Natijalarni chiqaring
     //   }
     // }
-    return RasxodOwn;
   } catch (err) {
     return err.message;
   }
