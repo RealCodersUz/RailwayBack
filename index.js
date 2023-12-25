@@ -13,11 +13,11 @@ const rasxodRoute = require("./src/modules/rasxod_aperativniy/_api");
 const nalogRaute = require("./src/modules/nalog_values/_api");
 
 const app = express();
-app.use(express.json({ limit: "50mb" }));
 app.use(cors());
 app.options("*", cors());
 
-app.use(express.json());
+// app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 app.use(bodyParser.json({ limit: "2000mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "2000mb" }));
 
