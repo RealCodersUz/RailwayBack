@@ -13,7 +13,7 @@ const rasxodRoute = require("./src/modules/rasxod_aperativniy/_api");
 const nalogRaute = require("./src/modules/nalog_values/_api");
 
 const app = express();
-
+app.use(express.json({ limit: "50mb" }));
 app.use(cors());
 app.options("*", cors());
 
