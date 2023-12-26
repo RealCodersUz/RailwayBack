@@ -8,6 +8,7 @@ async function addValues(data, user) {
     let updatedValues = query[0].values.map(
       (value, index) => value + data.values[index]
     );
+    console.log(updatedValues);
     let res = await AdmData.findByIdAndUpdate(
       query[0]._id,
       { values: updatedValues },
