@@ -14,6 +14,9 @@ const valuesSchema = new mongoose.Schema(
     values: {
       type: mongoose.SchemaTypes.Array,
     },
+    names: {
+      type: mongoose.SchemaTypes.Array,
+    },
     is_deleted: {
       type: mongoose.SchemaTypes.Boolean,
       default: false,
