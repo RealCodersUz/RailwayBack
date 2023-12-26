@@ -43,7 +43,7 @@ async function listAdmData(reqQuery, userId) {
       query = query.skip(parseInt(offset, 10));
     }
     // const archives = await query.exec();
-    console.log(1);
+    // console.log(1);
     const datas = await Values.find({ is_deleted: false });
     console.log(datas);
     const valuesQuery = Values.find({
@@ -60,6 +60,11 @@ async function listAdmData(reqQuery, userId) {
     //     console.log("Topilgan natijalar: ", results); // Natijalarni chiqaring
     //   }
     // }
+    // let boshArr = [];
+    // valuesOwn.values.map((e) => {
+    //   boshArr.push(e[0]);
+    // });
+    // console.log(boshArr, "bosharr");
     return valuesOwn;
   } catch (err) {
     return err.message;

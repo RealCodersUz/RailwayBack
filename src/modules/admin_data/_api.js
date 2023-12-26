@@ -11,7 +11,7 @@ const isAdmin = require("../../shared/auth/is-admin");
 
 const router = express.Router();
 
-router.post("/admdata", isLoggedIn, postValue);
+router.post("/admdata", isLoggedIn, isAdmin, postValue);
 router.get("/admdata", isLoggedIn, isAdmin, getAdmDAtas);
 router.get("/admdata/:id", isLoggedIn, isAdmin, getAdmData);
 router.delete("/admdata/:id", isLoggedIn, isAdmin, deleteValue);

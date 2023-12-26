@@ -5,6 +5,7 @@ exports.postValuesSchema = {
     year: Joi.string(),
     month: Joi.string(),
     values: Joi.array(),
+    names: Joi.array(),
     branch_name: Joi.string(),
   }),
 };

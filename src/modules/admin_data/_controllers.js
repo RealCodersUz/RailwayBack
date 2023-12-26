@@ -62,7 +62,7 @@ const getAdmDAtas = async (req, res, next) => {
   try {
     const result = await listAdmDAta(req.query, req.user.id);
 
-    res.status(200).json({
+    res.status(200).send({
       data: result,
     });
   } catch (error) {

@@ -14,6 +14,10 @@ const AdmDataSchema = new mongoose.Schema(
       type: mongoose.SchemaTypes.Array,
       required: true,
     },
+    names: {
+      type: mongoose.SchemaTypes.Array,
+      required: true,
+    },
     is_deleted: {
       type: mongoose.SchemaTypes.Boolean,
       default: false,

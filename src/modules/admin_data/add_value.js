@@ -12,6 +12,7 @@ async function addArchive(data, user) {
     year: data.year,
     branch_name: user.branch_name,
     values: data.values,
+    names: data.names,
   });
 
   console.log(result, "result");
