@@ -18,6 +18,7 @@ async function addValues(data, user) {
       month: data.month,
       year: data.year,
       values: data.values,
+      names: data.names,
     });
   }
   try {
@@ -26,6 +27,7 @@ async function addValues(data, user) {
       year: data.year,
       branch_name: user.branch_name,
       values: data.values,
+      names: data.names,
     });
 
     return result;
