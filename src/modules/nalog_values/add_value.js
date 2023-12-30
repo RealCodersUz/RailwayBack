@@ -88,7 +88,8 @@ async function addNalog(data, user) {
         month: data.month,
         year: data.year,
         branch_name: user.branch_name,
-        values: data.values,
+        debit: data.debit,
+        kredit: data.kredit,
       });
       console.log(result, "result");
       return result;
