@@ -5,11 +5,14 @@ const SaldoSchema = new mongoose.Schema(
     branch_name: {
       type: mongoose.SchemaTypes.String,
     },
-    date: {
+    month: {
+      type: mongoose.SchemaTypes.String,
+    },
+    year: {
       type: mongoose.SchemaTypes.String,
     },
     values: {
-      type: mongoose.SchemaTypes.Array,
+      type: Object,
     },
     is_deleted: {
       type: mongoose.SchemaTypes.Boolean,

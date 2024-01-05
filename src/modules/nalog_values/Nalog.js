@@ -14,11 +14,14 @@ const nalogSchema = new mongoose.Schema(
     file: {
       type: mongoose.SchemaTypes.Array,
     },
-    debit: {
-      type: mongoose.SchemaTypes.Array,
+    start: {
+      type: Object,
     },
-    kredit: {
-      type: mongoose.SchemaTypes.Array,
+    final: {
+      type: Object,
+    },
+    values: {
+      type: Object,
     },
     is_deleted: {
       type: mongoose.SchemaTypes.Boolean,

@@ -24,14 +24,7 @@ async function addNalog(data, user) {
   let targetMonthData = dates.find((month) => month.name === data.month);
   let targetIndex = dates.findIndex((month) => month.name === data.month);
 
-  if (targetIndex !== -1 && targetIndex > 0) {
-    let previousMonthData = dates[targetIndex - 1];
-    console.log("Previous Month Name:", previousMonthData.name);
-    console.log("Previous Month Number:", previousMonthData.number);
-  } else {
-    console.log("Bunday oy topilmadi yoki u birinchi oy");
-    return new BadRequestError("Ошибка ввода!!!");
-  }
+  console.log(previousMonthData);
   try {
     const wb = XLSX.utils.book_new();
     const wsName = "Sheet1";
@@ -58,24 +51,44 @@ async function addNalog(data, user) {
 
     console.log("Excel fayli generatsiya qilindi: ${}.xlsx");
     // try {
-    let saldoData = await Saldo.find({
-      branch_name: user.branch_name,
-      date: "01." + targetMonthData.number + "." + data.year,
-      is_deleted: false,
-    });
-    console.log(saldoData);
+    // let saldoData = await Saldo.find({
+    //   branch_name: user.branch_name,
+    //   date: "01." + targetMonthData.number + "." + data.year,
+    //   is_deleted: false,
+    // });
+    // console.log(saldoData);
 
-    console.log(user, "user");
-    let newSaldo = await Saldo.create({
-      date: "01." + targetMonthData.number + "." + data.year,
-      branch_name: user.branch_name,
-      debit: data.debit,
-      kredit: data.kredit,
-      // type: "Налог",
-    });
-    console.log(newSaldo);
+    // console.log(user, "user");
+    // let newSaldo = await Saldo.create({
+    //   date: "01." + targetMonthData.number + "." + data.year,
+    //   branch_name: user.branch_name,
+    //   debit: data.debit,
+    //   kredit: data.kredit,
+    //   // type: "Налог",
+    // });
+    // console.log(newSaldo);
+    let start;
+    if (targetIndex !== -1 && targetIndex > 0) {
+      let previousMonthData = dates[targetIndex - 1];
+      console.log("Previous Month Name:", previousMonthData.name);
+      console.log("Previous Month Number:", previousMonthData.number);
+      try {
+        start = await Saldo.find({
+          month: previousMonthData.name,
+          year: data.year,
+          branch_name: user.branch_name,
+        });
+        console.log(start);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.log("Bunday oy topilmadi yoki u birinchi oy");
+      return new BadRequestError("Ошибка ввода!!!");
+    }
     let archive = Archives.create({
-      name: user.branch_name + "_" + data.month + "_" + data.year + "_nalog",
+      name:
+        user.branch_name + "_" + data.month + "_" + data.year + "_nalog.xlsx",
       month: data.month,
       year: data.year,
       branch_name: user.branch_name,
@@ -84,12 +97,40 @@ async function addNalog(data, user) {
       type: "Налог",
     });
     if (archive) {
+      let final = {
+        debit: [],
+        kredit: [],
+      };
+      if (start.debit != [] && start.kredit != []) {
+        for (let i = 0; i < start.debit; i++) {
+          const element = start.debit[i];
+          console.log(element);
+          let qiymat =
+            start.kredit[i] +
+            data.values.uplacheno[i] -
+            data.values.rashyot[i] -
+            start.debit[i];
+          console.log(qiymat);
+          final.kredit.push(qiymat > 0 ? qiymat : 0);
+          final.debit.push(qiymat < 0 ? Math.abs(qiymat) : 0);
+        }
+      }
+      let newSaldo = await Saldo.create({
+        year: data.year,
+        month: data.month,
+        value: final,
+      });
+      console.log(newSaldo);
       const result = await Nalog.create({
         month: data.month,
         year: data.year,
         branch_name: user.branch_name,
-        debit: data.debit,
-        kredit: data.kredit,
+        start,
+        values: {
+          debit: data.debit,
+          kredit: data.kredit,
+        },
+        final,
       });
       console.log(result, "result");
       return result;
