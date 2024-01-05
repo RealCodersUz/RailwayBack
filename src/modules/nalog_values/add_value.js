@@ -8,18 +8,18 @@ const { BadRequestError } = require("../../shared/errors");
 
 async function addNalog(data, user) {
   let dates = [
-    { name: "Yanvar", number: "1" },
-    { name: "Fevral", number: "2" },
-    { name: "Mart", number: "3" },
-    { name: "Aprel", number: "4" },
-    { name: "May", number: "5" },
-    { name: "Iyun", number: "6" },
-    { name: "Iyul", number: "7" },
-    { name: "Avgust", number: "8" },
-    { name: "Sentabr", number: "9" },
-    { name: "Oktabr", number: "10" },
-    { name: "Noyabr", number: "11" },
-    { name: "Dekabr", number: "12" },
+    { name: "кв-1", number: "1" },
+    { name: "кв-2", number: "2" },
+    { name: "кв-3", number: "3" },
+    { name: "кв-4", number: "4" },
+    // { name: "May", number: "5" },
+    // { name: "Iyun", number: "6" },
+    // { name: "Iyul", number: "7" },
+    // { name: "Avgust", number: "8" },
+    // { name: "Sentabr", number: "9" },
+    // { name: "Oktabr", number: "10" },
+    // { name: "Noyabr", number: "11" },
+    // { name: "Dekabr", number: "12" },
   ];
   let targetMonthData = dates.find((month) => month.name === data.month);
   let targetIndex = dates.findIndex((month) => month.name === data.month);
