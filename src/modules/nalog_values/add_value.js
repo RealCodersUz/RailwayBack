@@ -152,6 +152,7 @@ async function addNalog(data, user) {
         month: data.month,
         year: data.year,
         branch_name: user.branch_name,
+        file: data.file,
         start: start[0].values,
         values: {
           uplacheno: data.values.uplacheno,

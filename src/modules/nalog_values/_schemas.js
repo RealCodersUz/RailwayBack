@@ -8,7 +8,7 @@ exports.postValuesSchema = {
     values: Joi.object(),
     // debit: Joi.array(),
     // kredit: Joi.array(),
-    // branch_name: Joi.string(),
+    branch_name: Joi.string(),
   }),
 };
 
