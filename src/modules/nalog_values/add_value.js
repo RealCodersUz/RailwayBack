@@ -103,15 +103,34 @@ async function addNalog(data, user) {
         debit: [],
         kredit: [],
       };
-      if (start.values.debit != [] && start.values.kredit != []) {
-        for (let i = 0; i < start.values.debit; i++) {
-          const element = start.values.debit[i];
+      console.log(
+        "first",
+        start[0].values,
+        start[0].values.debit,
+        start[0].values.kredit
+        // start[0].values.debit.length,
+        // start[0].values.kredit.length
+      );
+      console.log(
+        "second",
+        start[0],
+        start[0].values.debit.length > 0,
+        start[0].values.kredit.length > 0
+      );
+      if (
+        start[0] &&
+        start[0].values.debit.length > 0 &&
+        start[0].values.kredit.length > 0
+      ) {
+        for (let i = 0; i < start[0].values.debit.length; i++) {
+          const element = start[0].values.debit[i];
           console.log(element);
+
           let qiymat =
-            start.values.kredit[i] +
+            start[0].values.kredit[i] +
             data.values.uplacheno[i] -
             data.values.rashyot[i] -
-            start.values.debit[i];
+            start[0].values.debit[i];
 
           console.log(qiymat, "qiymat");
           final.kredit.push(qiymat > 0 ? qiymat : 0);
