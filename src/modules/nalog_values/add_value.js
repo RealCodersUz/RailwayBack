@@ -4,9 +4,11 @@ const Archives = require("../archives/Archives");
 const XLSX = require("xlsx");
 const fs = require("fs");
 const { BadRequestError } = require("../../shared/errors");
+// const { start } = require("repl");
 // const { json } = require("body-parser");
 
 async function addNalog(data, user) {
+  console.log(data, "DATA");
   let dates = [
     { name: "кв-1", number: "1" },
     { name: "кв-2", number: "2" },
@@ -24,7 +26,7 @@ async function addNalog(data, user) {
   let targetMonthData = dates.find((month) => month.name === data.month);
   let targetIndex = dates.findIndex((month) => month.name === data.month);
 
-  console.log(previousMonthData);
+  console.log(targetIndex, "Bu index");
   try {
     const wb = XLSX.utils.book_new();
     const wsName = "Sheet1";
@@ -78,7 +80,7 @@ async function addNalog(data, user) {
           year: data.year,
           branch_name: user.branch_name,
         });
-        console.log(start);
+        console.log(start, "start");
       } catch (error) {
         console.error(error);
       }
@@ -101,16 +103,17 @@ async function addNalog(data, user) {
         debit: [],
         kredit: [],
       };
-      if (start.debit != [] && start.kredit != []) {
-        for (let i = 0; i < start.debit; i++) {
-          const element = start.debit[i];
+      if (start.values.debit != [] && start.values.kredit != []) {
+        for (let i = 0; i < start.values.debit; i++) {
+          const element = start.values.debit[i];
           console.log(element);
           let qiymat =
-            start.kredit[i] +
+            start.values.kredit[i] +
             data.values.uplacheno[i] -
             data.values.rashyot[i] -
-            start.debit[i];
-          console.log(qiymat);
+            start.values.debit[i];
+
+          console.log(qiymat, "qiymat");
           final.kredit.push(qiymat > 0 ? qiymat : 0);
           final.debit.push(qiymat < 0 ? Math.abs(qiymat) : 0);
         }
@@ -118,17 +121,22 @@ async function addNalog(data, user) {
       let newSaldo = await Saldo.create({
         year: data.year,
         month: data.month,
-        value: final,
+        values: final,
+        branch_name: user.branch_name,
       });
       console.log(newSaldo);
+      console.log("start", start[0], "final", final, "values", {
+        debit: data.values.uplacheno,
+        kredit: data.values.rashyot,
+      });
       const result = await Nalog.create({
         month: data.month,
         year: data.year,
         branch_name: user.branch_name,
-        start,
+        start: start[0].values,
         values: {
-          debit: data.debit,
-          kredit: data.kredit,
+          uplacheno: data.values.uplacheno,
+          rashyot: data.values.rashyot,
         },
         final,
       });
