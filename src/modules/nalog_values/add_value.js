@@ -165,41 +165,160 @@ async function addNalog(data, user) {
         year: data.year,
         branch_name: "Общий",
       });
+      console.log(query);
+      let saldoObshiy;
       if (query) {
-        let updatedValues = {
-          debit: [],
-          kredit: [],
-        };
-        updatedValues.debit = query[0].values.debit.map(
-          (value, index) => value + data.values.debit[index]
-        );
-        updatedValues.kredit = query[0].values.kredit.map(
-          (value, index) => value + data.values.kredit[index]
-        );
-        let updatedStart = query[0].start.map(
-          (value, index) => value + data.values[index]
-        );
-        let updatedFinal = query[0].values.map(
-          (value, index) => value + data.values[index]
-        );
-        console.log(updatedValues);
-        console.log(updatedStart);
-        console.log(updatedFinal);
-        let res = await Nalog.findByIdAndUpdate(
-          query[0]._id,
-          { values: updatedValues },
-          { start: updatedStart },
-          { final: updatedFinal },
-          { new: true }
-        );
+        if (targetIndex !== -1 && targetIndex > 0) {
+          let previousMonthData = dates[targetIndex - 1];
+          saldoObshiy = await Saldo.findOne({
+            month: previousMonthData.name,
+            year: data.year,
+            branch_name: "Общий",
+          });
+        } else {
+          let previousMonthData = dates[3];
+          saldoObshiy = await Saldo.findOne({
+            month: previousMonthData.name,
+            year: data.year - 1,
+            branch_name: "Общий",
+          });
+        }
+        if (saldoObshiy) {
+          let updatedValues = {
+            uplacheno: [],
+            rashyot: [],
+          };
+          let updatedStart = saldoObshiy.values;
+          let updatedFinal = {
+            debit: [],
+            kredit: [],
+          };
+          updatedValues.uplacheno = query.values.uplacheno.map(
+            (value, index) => value + data.values.debit[index]
+          );
+          updatedValues.rashyot = query.values.rashyot.map(
+            (value, index) => value + data.values.kredit[index]
+          );
+          // updatedStart.debit = query.start.debit.map(
+          //   (value, index) => value + data.values[index]
+          // );
+          // updatedFinal = query.values.map(
+          //   (value, index) => value + data.values[index]
+          // );
+          if (updatedStart.debit.length > 0 || updatedStart.kredit.length > 0) {
+            if (
+              updatedValues.debit.length > 0 ||
+              updatedValues.kredit.length > 0
+            ) {
+              for (let i = 0; i < updatedStart.debit.length; i++) {
+                let findedFinal =
+                  updatedStart.kredit[i] +
+                  updatedValues.uplacheno[i] -
+                  updatedValues.rashyot[i] -
+                  updatedStart.debit[i];
+
+                updatedFinal.kredit.push(findedFinal > 0 ? findedFinal : 0);
+                updatedFinal.debit.push(
+                  findedFinal < 0 ? Math.abs(findedFinal) : 0
+                );
+              }
+            }
+          }
+
+          console.log(updatedValues);
+          console.log(updatedStart);
+          console.log(updatedFinal);
+          let res = await Nalog.findByIdAndUpdate(
+            query._id,
+            { values: updatedValues },
+            { start: updatedStart },
+            { final: updatedFinal },
+            { new: true }
+          );
+          await Saldo.findOneAndUpdate(
+            { year: data.year, month: data.month, branch_name: "Общий" },
+            {
+              values: updatedFinal,
+            }
+          );
+        } else {
+          let updatedValues = {
+            uplacheno: [],
+            rashyot: [],
+          };
+          let updatedStart = {
+            debit: [],
+            kredit: [],
+          };
+          let updatedFinal = {
+            debit: [],
+            kredit: [],
+          };
+          updatedValues.uplacheno = query.values.uplacheno.map(
+            (value, index) => value + data.values.debit[index]
+          );
+          updatedValues.rashyot = query.values.rashyot.map(
+            (value, index) => value + data.values.kredit[index]
+          );
+          updatedStart.debit = query.start.debit.map(
+            (value, index) => value + data.values[index]
+          );
+          // updatedFinal = query.values.map(
+          //   (value, index) => value + data.values[index]
+          // );
+          if (updatedStart.debit.length > 0 || updatedStart.kredit.length > 0) {
+            if (
+              updatedValues.debit.length > 0 ||
+              updatedValues.kredit.length > 0
+            ) {
+              for (let i = 0; i < updatedStart.debit.length; i++) {
+                let findedFinal =
+                  updatedStart.kredit[i] +
+                  updatedValues.uplacheno[i] -
+                  updatedValues.rashyot[i] -
+                  updatedStart.debit[i];
+
+                updatedFinal.kredit.push(findedFinal > 0 ? findedFinal : 0);
+                updatedFinal.debit.push(
+                  findedFinal < 0 ? Math.abs(findedFinal) : 0
+                );
+              }
+
+              await Saldo.findOneAndUpdate(
+                { year: data.year, month: data.month, branch_name: "Общий" },
+                {
+                  values: updatedFinal,
+                }
+              );
+            }
+          }
+
+          console.log(updatedValues, "updatedValues");
+          console.log(updatedStart, "updatedStart");
+          console.log(updatedFinal, "updatedFinal");
+          let res = await Nalog.findByIdAndUpdate(
+            query._id,
+            { values: updatedValues },
+            { start: updatedStart },
+            { final: updatedFinal },
+            { new: true }
+          );
+        }
       } else {
         await Nalog.create({
           year: data.year,
           month: data.month,
           branch_name: "Общий",
+          file: data.file,
           values: data.values,
           start: start[0].values,
-          final,
+          final: final,
+        });
+        await Saldo.create({
+          year: data.year,
+          month: data.month,
+          values: final,
+          branch_name: "Общий",
         });
       }
       // }
